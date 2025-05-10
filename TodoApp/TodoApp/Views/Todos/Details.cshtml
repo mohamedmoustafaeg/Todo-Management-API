@@ -1,0 +1,58 @@
+﻿@model TodoApp.Models.Todo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Todo Details</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Title)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.Title)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Description)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.Description)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Status)</dt>
+                <dd class="col-sm-9">
+                    <span class="badge badge-@GetStatusBadgeClass(Model.Status)">
+                        @Model.Status
+                    </span>
+                </dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Priority)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.Priority)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(m => m.DueDate)</dt>
+                <dd class="col-sm-9">@Model.DueDate?.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(m => m.CreatedDate)</dt>
+                <dd class="col-sm-9">@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(m => m.LastModifiedDate)</dt>
+                <dd class="col-sm-9">@Model.LastModifiedDate.ToString("yyyy-MM-dd HH:mm")</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-right">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadgeClass(TodoApp.Models.TodoStatus status)
+    {
+        return status switch
+        {
+            TodoApp.Models.TodoStatus.Pending => "secondary",
+            TodoApp.Models.TodoStatus.InProgress => "warning",
+            TodoApp.Models.TodoStatus.Completed => "success",
+            _ => "light"
+        };
+    }
+}
